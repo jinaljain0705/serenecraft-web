@@ -1,5 +1,8 @@
-import { Heart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { useState } from "react";
+import { Heart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const quickLinks = [
   { label: "Home", to: "/" },
@@ -25,7 +28,26 @@ const socials = [
   { icon: Instagram, href: "#", label: "Instagram" },
 ];
 
-const Footer = () => (
+const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setLoading(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({ email: email.trim() });
+    setLoading(false);
+    if (error) {
+      if (error.code === "23505") toast.info("You're already subscribed!");
+      else toast.error("Something went wrong. Please try again.");
+    } else {
+      toast.success("Thanks for subscribing!");
+      setEmail("");
+    }
+  };
+
+  return (
   <footer className="bg-foreground pt-16 pb-8">
     <div className="container mx-auto">
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -98,6 +120,32 @@ const Footer = () => (
         </div>
       </div>
 
+      {/* Newsletter */}
+      <div className="border-t border-muted/10 pt-8 pb-8">
+        <div className="max-w-md mx-auto text-center">
+          <h4 className="font-heading text-base font-semibold text-primary-foreground mb-2">Stay Updated</h4>
+          <p className="text-sm text-muted-foreground mb-4">Subscribe to our newsletter for care tips and updates.</p>
+          <form onSubmit={handleSubscribe} className="flex gap-2">
+            <input
+              type="email"
+              required
+              placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 h-10 rounded-md border border-muted/20 bg-muted/10 px-3 text-sm text-primary-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="h-10 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+            >
+              <Send className="h-4 w-4" />
+              {loading ? "..." : "Subscribe"}
+            </button>
+          </form>
+        </div>
+      </div>
+
       {/* Bottom */}
       <div className="border-t border-muted/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-xs text-muted-foreground">
@@ -110,6 +158,7 @@ const Footer = () => (
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 export default Footer;
