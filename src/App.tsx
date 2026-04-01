@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
+import { CartProvider } from "@/hooks/useCart";
 import Index from "./pages/Index.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
@@ -18,6 +19,7 @@ import AdminDashboard from "./pages/AdminDashboard.tsx";
 import PricingPage from "./pages/PricingPage.tsx";
 import ShopPage from "./pages/ShopPage.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
+import CartPage from "./pages/CartPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useEffect } from "react";
 
