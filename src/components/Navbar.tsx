@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ShoppingCart, Lock, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -17,6 +18,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { totalItems } = useCart();
+  const { user } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -60,7 +62,7 @@ const Navbar = () => {
               {totalItems}
             </span>
           </Link>
-          <Link to="/auth" className="text-muted-foreground hover:text-primary transition-colors" title="Account">
+          <Link to={user ? "/profile" : "/auth"} className="text-muted-foreground hover:text-primary transition-colors" title={user ? "Profile" : "Sign In"}>
             <User className="h-4 w-4" />
           </Link>
           <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors" title="Admin">
@@ -107,8 +109,8 @@ const Navbar = () => {
                 </li>
               ))}
               <li>
-                <Link to="/auth" onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
-                  <User className="h-4 w-4" /> Sign In / Sign Up
+                <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <User className="h-4 w-4" /> {user ? "My Profile" : "Sign In / Sign Up"}
                 </Link>
               </li>
               <li>
