@@ -3,10 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail, FileText } from "lucide-react";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
-type Tab = "services" | "team" | "testimonials" | "submissions";
+type Tab = "services" | "team" | "testimonials" | "submissions" | "blog";
 
 const AdminDashboard = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -29,6 +29,7 @@ const AdminDashboard = () => {
     { key: "team", label: "Team", icon: Users },
     { key: "testimonials", label: "Testimonials", icon: MessageSquare },
     { key: "submissions", label: "Submissions", icon: Mail },
+    { key: "blog", label: "Blog Posts", icon: FileText },
   ];
 
   return (
@@ -70,6 +71,7 @@ const AdminDashboard = () => {
         {tab === "team" && <TeamPanel />}
         {tab === "testimonials" && <TestimonialsPanel />}
         {tab === "submissions" && <SubmissionsPanel />}
+        {tab === "blog" && <BlogPanel />}
       </div>
     </div>
   );
@@ -449,6 +451,147 @@ function SubmissionsPanel() {
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function BlogPanel() {
+  const qc = useQueryClient();
+  const [editing, setEditing] = useState<Tables<"blog_posts"> | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  const { data: items = [] } = useQuery({
+    queryKey: ["admin-blog"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blog_posts").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-blog"] }),
+  });
+
+  const upsertMut = useMutation({
+    mutationFn: async (item: TablesInsert<"blog_posts"> & { id?: string }) => {
+      if (item.id) {
+        const { id, ...rest } = item;
+        const { error } = await supabase.from("blog_posts").update(rest as TablesUpdate<"blog_posts">).eq("id", id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("blog_posts").insert([item]);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-blog"] });
+      setEditing(null);
+      setAdding(false);
+    },
+  });
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-heading text-2xl font-bold text-foreground">Blog Posts</h2>
+        <button onClick={() => setAdding(true)} className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-teal-dark transition-colors">
+          <Plus className="h-4 w-4" /> Add Post
+        </button>
+      </div>
+
+      {(adding || editing) && (
+        <BlogForm
+          initial={editing}
+          onSave={(data) => upsertMut.mutate(data)}
+          onCancel={() => { setAdding(false); setEditing(null); }}
+          saving={upsertMut.isPending}
+        />
+      )}
+
+      <div className="grid gap-3">
+        {items.map((item) => (
+          <div key={item.id} className="flex items-center justify-between rounded-xl bg-card p-4 border border-border shadow-soft">
+            <div>
+              <div className="flex items-center gap-2">
+                <p className="font-medium text-foreground">{item.title}</p>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${item.published ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>
+                  {item.published ? "Published" : "Draft"}
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground truncate max-w-md">{item.excerpt}</p>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setEditing(item)} className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button onClick={() => deleteMut.mutate(item.id)} className="h-8 w-8 rounded-lg bg-destructive/10 flex items-center justify-center text-destructive hover:bg-destructive/20 transition-colors">
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BlogForm({ initial, onSave, onCancel, saving }: {
+  initial: Tables<"blog_posts"> | null;
+  onSave: (data: TablesInsert<"blog_posts"> & { id?: string }) => void;
+  onCancel: () => void;
+  saving: boolean;
+}) {
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [slug, setSlug] = useState(initial?.slug ?? "");
+  const [excerpt, setExcerpt] = useState(initial?.excerpt ?? "");
+  const [content, setContent] = useState(initial?.content ?? "");
+  const [author, setAuthor] = useState(initial?.author ?? "Careold Team");
+  const [coverUrl, setCoverUrl] = useState(initial?.cover_image_url ?? "");
+  const [published, setPublished] = useState(initial?.published ?? false);
+
+  const autoSlug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+  return (
+    <div className="rounded-xl bg-card p-6 border border-primary/30 shadow-card mb-6 space-y-4">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <input value={title} onChange={(e) => { setTitle(e.target.value); if (!initial) setSlug(autoSlug(e.target.value)); }} placeholder="Post Title" className={inputClass} />
+        <input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="slug-url" className={inputClass} />
+      </div>
+      <input value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Short excerpt..." className={inputClass} />
+      <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Full content (supports ## headings, - lists, **bold**)" rows={10} className={inputClass} />
+      <div className="grid sm:grid-cols-3 gap-4">
+        <input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Author" className={inputClass} />
+        <input value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} placeholder="Cover Image URL (optional)" className={inputClass} />
+        <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
+          <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} className="rounded border-border" />
+          Published
+        </label>
+      </div>
+      <div className="flex gap-3">
+        <button
+          onClick={() => onSave({
+            id: initial?.id,
+            title,
+            slug,
+            excerpt,
+            content,
+            author,
+            cover_image_url: coverUrl || null,
+            published,
+            published_at: published ? (initial?.published_at ?? new Date().toISOString()) : null,
+          })}
+          disabled={saving}
+          className="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-teal-dark transition-colors disabled:opacity-50"
+        >
+          {saving ? "Saving..." : initial ? "Update" : "Create"}
+        </button>
+        <button onClick={onCancel} className="rounded-lg bg-secondary px-5 py-2 text-sm font-medium text-foreground hover:bg-secondary/80 transition-colors">Cancel</button>
       </div>
     </div>
   );
