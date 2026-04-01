@@ -104,6 +104,107 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          price: number
+          product_image: string | null
+          product_name: string
+          quantity: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          price: number
+          product_image?: string | null
+          product_name: string
+          quantity?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          price?: number
+          product_image?: string | null
+          product_name?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          city: string
+          country: string
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          notes: string | null
+          order_number: string
+          payment_method: string
+          phone: string
+          shipping: number
+          state: string
+          status: string
+          street: string
+          subtotal: number
+          total: number
+          zip: string
+        }
+        Insert: {
+          city: string
+          country: string
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          notes?: string | null
+          order_number: string
+          payment_method?: string
+          phone: string
+          shipping: number
+          state: string
+          status?: string
+          street: string
+          subtotal: number
+          total: number
+          zip: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          phone?: string
+          shipping?: number
+          state?: string
+          status?: string
+          street?: string
+          subtotal?: number
+          total?: number
+          zip?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           created_at: string
