@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import serviceCompanion from "@/assets/service-companion.jpg";
 import servicePersonalized from "@/assets/service-personalized.jpg";
 import serviceDisability from "@/assets/service-disability.jpg";
