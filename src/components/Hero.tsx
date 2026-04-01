@@ -75,7 +75,9 @@ const Hero = () => {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="relative hidden md:block"
         >
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-elevated bg-cream-dark" />
+          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-elevated">
+            <img src={heroImage} alt="Caring nurse with senior patient" className="w-full h-full object-cover" width={896} height={1120} />
+          </div>
           {/* Floating badge */}
           <div className="absolute -left-6 bottom-20 rounded-2xl bg-card shadow-card p-4 flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
