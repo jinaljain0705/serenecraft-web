@@ -10,6 +10,18 @@ import { toast } from "sonner";
 
 const SHIPPING_RATE = 20;
 
+const requiredFields = [
+  { key: "firstName", label: "First Name" },
+  { key: "lastName", label: "Last Name" },
+  { key: "country", label: "Country" },
+  { key: "street", label: "Street Address" },
+  { key: "city", label: "City" },
+  { key: "state", label: "State" },
+  { key: "zip", label: "ZIP Code" },
+  { key: "phone", label: "Phone" },
+  { key: "email", label: "Email" },
+] as const;
+
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCart();
   const navigate = useNavigate();
@@ -31,16 +43,48 @@ const CheckoutPage = () => {
     agreeTerms: false,
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target;
     const value = target instanceof HTMLInputElement && target.type === "checkbox" ? target.checked : target.value;
     setForm((prev) => ({ ...prev, [target.name]: value }));
+    if (submitted) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[target.name];
+        return next;
+      });
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    for (const { key, label } of requiredFields) {
+      if (!form[key].trim()) {
+        newErrors[key] = `${label} is required`;
+      }
+    }
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (form.phone && !/^[\d\s\-+()]{7,}$/.test(form.phone)) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+    if (!form.agreeTerms) {
+      newErrors.agreeTerms = "You must agree to the terms";
+    }
+    return newErrors;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.agreeTerms) {
-      toast.error("Please agree to the terms and conditions");
+    setSubmitted(true);
+    const newErrors = validate();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the errors in the form");
       return;
     }
     clearCart();
@@ -115,10 +159,10 @@ const CheckoutPage = () => {
                           name="firstName"
                           value={form.firstName}
                           onChange={handleChange}
-                          required
                           placeholder="First Name"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.firstName ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.firstName && <p className="text-destructive text-xs mt-1">{errors.firstName}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Last Name *</label>
@@ -127,10 +171,10 @@ const CheckoutPage = () => {
                           name="lastName"
                           value={form.lastName}
                           onChange={handleChange}
-                          required
                           placeholder="Last Name"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.lastName ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.lastName && <p className="text-destructive text-xs mt-1">{errors.lastName}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Country / Region *</label>
@@ -138,8 +182,7 @@ const CheckoutPage = () => {
                           name="country"
                           value={form.country}
                           onChange={handleChange}
-                          required
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.country ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         >
                           <option value="">Select Country</option>
                           <option value="US">United States</option>
@@ -147,6 +190,7 @@ const CheckoutPage = () => {
                           <option value="UK">United Kingdom</option>
                           <option value="AU">Australia</option>
                         </select>
+                        {errors.country && <p className="text-destructive text-xs mt-1">{errors.country}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Street Address *</label>
@@ -155,10 +199,10 @@ const CheckoutPage = () => {
                           name="street"
                           value={form.street}
                           onChange={handleChange}
-                          required
                           placeholder="Street address"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.street ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.street && <p className="text-destructive text-xs mt-1">{errors.street}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Town / City *</label>
@@ -167,10 +211,10 @@ const CheckoutPage = () => {
                           name="city"
                           value={form.city}
                           onChange={handleChange}
-                          required
                           placeholder="Town / City"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.city ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.city && <p className="text-destructive text-xs mt-1">{errors.city}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">State *</label>
@@ -179,10 +223,10 @@ const CheckoutPage = () => {
                           name="state"
                           value={form.state}
                           onChange={handleChange}
-                          required
                           placeholder="State"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.state ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.state && <p className="text-destructive text-xs mt-1">{errors.state}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">ZIP Code *</label>
@@ -191,10 +235,10 @@ const CheckoutPage = () => {
                           name="zip"
                           value={form.zip}
                           onChange={handleChange}
-                          required
                           placeholder="ZIP Code"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.zip ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.zip && <p className="text-destructive text-xs mt-1">{errors.zip}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Phone *</label>
@@ -203,10 +247,10 @@ const CheckoutPage = () => {
                           name="phone"
                           value={form.phone}
                           onChange={handleChange}
-                          required
                           placeholder="Phone"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.phone ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Email Address *</label>
@@ -215,10 +259,10 @@ const CheckoutPage = () => {
                           name="email"
                           value={form.email}
                           onChange={handleChange}
-                          required
                           placeholder="Email address"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.email ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Order Notes (optional)</label>
@@ -309,18 +353,21 @@ const CheckoutPage = () => {
                     </div>
 
                     {/* Terms */}
-                    <label className="flex items-start gap-3 cursor-pointer mb-6">
-                      <input
-                        type="checkbox"
-                        name="agreeTerms"
-                        checked={form.agreeTerms as boolean}
-                        onChange={handleChange}
-                        className="mt-0.5 h-4 w-4 accent-primary"
-                      />
-                      <span className="text-xs text-muted-foreground leading-relaxed">
-                        I have read and agree to the website terms and conditions *
-                      </span>
-                    </label>
+                    <div className="mb-6">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="agreeTerms"
+                          checked={form.agreeTerms as boolean}
+                          onChange={handleChange}
+                          className="mt-0.5 h-4 w-4 accent-primary"
+                        />
+                        <span className="text-xs text-muted-foreground leading-relaxed">
+                          I have read and agree to the website terms and conditions *
+                        </span>
+                      </label>
+                      {errors.agreeTerms && <p className="text-destructive text-xs mt-1">{errors.agreeTerms}</p>}
+                    </div>
 
                     <button
                       type="submit"
