@@ -62,7 +62,7 @@ const Navbar = () => {
               {totalItems}
             </span>
           </Link>
-          <Link to="/auth" className="text-muted-foreground hover:text-primary transition-colors" title="Account">
+          <Link to={user ? "/profile" : "/auth"} className="text-muted-foreground hover:text-primary transition-colors" title={user ? "Profile" : "Sign In"}>
             <User className="h-4 w-4" />
           </Link>
           <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors" title="Admin">
