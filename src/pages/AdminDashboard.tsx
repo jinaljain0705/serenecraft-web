@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail, FileText } from "lucide-react";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
-type Tab = "services" | "team" | "testimonials" | "submissions";
+type Tab = "services" | "team" | "testimonials" | "submissions" | "blog";
 
 const AdminDashboard = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
