@@ -5,6 +5,7 @@ import { Calendar, ArrowLeft, User } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -26,18 +27,18 @@ const BlogPost = () => {
 
   if (isLoading) {
     return (
-      <>
+      <PageTransition>
         <Navbar />
         <div className="min-h-screen pt-24 flex items-center justify-center">
           <p className="text-muted-foreground">Loading...</p>
         </div>
-      </>
+      </PageTransition>
     );
   }
 
   if (!post) {
     return (
-      <>
+      <PageTransition>
         <Navbar />
         <div className="min-h-screen pt-24 flex items-center justify-center">
           <div className="text-center">
@@ -45,11 +46,10 @@ const BlogPost = () => {
             <Link to="/blog" className="text-primary hover:underline text-sm">← Back to Blog</Link>
           </div>
         </div>
-      </>
+      </PageTransition>
     );
   }
 
-  // Simple markdown-like rendering: split by ## headings and paragraphs
   const renderContent = (content: string) => {
     return content.split("\n\n").map((block, i) => {
       if (block.startsWith("## ")) {
@@ -61,7 +61,6 @@ const BlogPost = () => {
           <ul key={i} className="list-disc list-inside space-y-2 mb-6 text-muted-foreground">
             {items.map((item, j) => {
               const text = item.replace("- ", "");
-              // Handle bold
               const parts = text.split(/\*\*(.*?)\*\*/g);
               return (
                 <li key={j}>
@@ -87,7 +86,7 @@ const BlogPost = () => {
   };
 
   return (
-    <>
+    <PageTransition>
       <Navbar />
       <article className="min-h-screen pt-24 pb-16">
         <div className="container mx-auto max-w-3xl">
@@ -119,7 +118,7 @@ const BlogPost = () => {
         </div>
       </article>
       <Footer />
-    </>
+    </PageTransition>
   );
 };
 
