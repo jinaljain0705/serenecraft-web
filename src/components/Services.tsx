@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import serviceCompanion from "@/assets/service-companion.jpg";
 import servicePersonalized from "@/assets/service-personalized.jpg";
 import serviceDisability from "@/assets/service-disability.jpg";
@@ -78,15 +79,15 @@ const Services = () => {
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
                   {s.description}
                 </p>
-                <a
-                  href="#"
+                <Link
+                  to="/contact"
                   className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors group/link"
                 >
                   Learn More
                   <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-primary/10 group-hover/link:bg-primary/20 transition-colors">
                     <ArrowRight className="h-3.5 w-3.5" />
                   </span>
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))}
