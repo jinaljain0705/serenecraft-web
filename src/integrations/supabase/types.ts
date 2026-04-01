@@ -14,7 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string
+          service: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone: string
+          service: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string
+          service?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          slug: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          icon?: string
+          id?: string
+          slug: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          slug?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          role: string
+          social_facebook: string | null
+          social_linkedin: string | null
+          social_twitter: string | null
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          role: string
+          social_facebook?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          role?: string
+          social_facebook?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author: string
+          created_at: string
+          id: string
+          quote: string
+          rating: number
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          id?: string
+          quote: string
+          rating?: number
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          id?: string
+          quote?: string
+          rating?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
