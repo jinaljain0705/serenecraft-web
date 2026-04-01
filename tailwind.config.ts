@@ -55,10 +55,17 @@ export default {
           DEFAULT: "hsl(var(--teal))",
           dark: "hsl(var(--teal-dark))",
         },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          dark: "hsl(var(--gold-dark))",
+        },
         cream: {
           DEFAULT: "hsl(var(--cream))",
           dark: "hsl(var(--cream-dark))",
         },
+        mint: "hsl(var(--mint))",
+        peach: "hsl(var(--peach))",
+        lemon: "hsl(var(--lemon))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
