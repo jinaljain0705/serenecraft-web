@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
+import heroImage from "@/assets/hero-senior-care.jpg";
 
 const Hero = () => {
   const [videoOpen, setVideoOpen] = useState(false);
