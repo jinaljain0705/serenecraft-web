@@ -71,6 +71,7 @@ const AdminDashboard = () => {
         {tab === "team" && <TeamPanel />}
         {tab === "testimonials" && <TestimonialsPanel />}
         {tab === "submissions" && <SubmissionsPanel />}
+        {tab === "blog" && <BlogPanel />}
       </div>
     </div>
   );
