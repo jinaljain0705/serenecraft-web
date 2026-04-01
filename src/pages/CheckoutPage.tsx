@@ -10,6 +10,18 @@ import { toast } from "sonner";
 
 const SHIPPING_RATE = 20;
 
+const requiredFields = [
+  { key: "firstName", label: "First Name" },
+  { key: "lastName", label: "Last Name" },
+  { key: "country", label: "Country" },
+  { key: "street", label: "Street Address" },
+  { key: "city", label: "City" },
+  { key: "state", label: "State" },
+  { key: "zip", label: "ZIP Code" },
+  { key: "phone", label: "Phone" },
+  { key: "email", label: "Email" },
+] as const;
+
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCart();
   const navigate = useNavigate();
@@ -31,16 +43,48 @@ const CheckoutPage = () => {
     agreeTerms: false,
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target;
     const value = target instanceof HTMLInputElement && target.type === "checkbox" ? target.checked : target.value;
     setForm((prev) => ({ ...prev, [target.name]: value }));
+    if (submitted) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[target.name];
+        return next;
+      });
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    for (const { key, label } of requiredFields) {
+      if (!form[key].trim()) {
+        newErrors[key] = `${label} is required`;
+      }
+    }
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (form.phone && !/^[\d\s\-+()]{7,}$/.test(form.phone)) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+    if (!form.agreeTerms) {
+      newErrors.agreeTerms = "You must agree to the terms";
+    }
+    return newErrors;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.agreeTerms) {
-      toast.error("Please agree to the terms and conditions");
+    setSubmitted(true);
+    const newErrors = validate();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the errors in the form");
       return;
     }
     clearCart();
