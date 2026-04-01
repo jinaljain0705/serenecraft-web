@@ -3,6 +3,19 @@ import { Facebook, Twitter, Linkedin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+// Local fallback images for team members
+import teamNaomi from "@/assets/team-naomi.jpg";
+import teamRobert from "@/assets/team-robert.jpg";
+import teamSarah from "@/assets/team-sarah.jpg";
+import teamJames from "@/assets/team-james.jpg";
+
+const fallbackImages: Record<string, string> = {
+  "Naomi Hannah": teamNaomi,
+  "Dr. Robert Chen": teamRobert,
+  "Sarah Williams": teamSarah,
+  "James Parker": teamJames,
+};
+
 const Team = () => {
   const { data: team } = useQuery({
     queryKey: ["team_members"],
@@ -35,39 +48,42 @@ const Team = () => {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team?.map((m, i) => (
-            <motion.div
-              key={m.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group text-center"
-            >
-              <div className="aspect-[3/4] rounded-2xl bg-cream-dark mb-5 overflow-hidden shadow-soft group-hover:shadow-card transition-shadow">
-                {m.image_url && (
-                  <img src={m.image_url} alt={m.name} className="w-full h-full object-cover" loading="lazy" />
-                )}
-              </div>
-              <h3 className="font-heading text-lg font-semibold text-foreground">{m.name}</h3>
-              <p className="text-sm text-primary mb-3">{m.role}</p>
-              <div className="flex justify-center gap-3">
-                {[
-                  { Icon: Facebook, url: m.social_facebook },
-                  { Icon: Twitter, url: m.social_twitter },
-                  { Icon: Linkedin, url: m.social_linkedin },
-                ].map(({ Icon, url }, idx) => (
-                  <a
-                    key={idx}
-                    href={url || "#"}
-                    className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+          {team?.map((m, i) => {
+            const imgSrc = m.image_url || fallbackImages[m.name];
+            return (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group text-center"
+              >
+                <div className="aspect-[3/4] rounded-2xl bg-cream-dark mb-5 overflow-hidden shadow-soft group-hover:shadow-card transition-shadow">
+                  {imgSrc && (
+                    <img src={imgSrc} alt={m.name} className="w-full h-full object-cover" loading="lazy" width={640} height={832} />
+                  )}
+                </div>
+                <h3 className="font-heading text-lg font-semibold text-foreground">{m.name}</h3>
+                <p className="text-sm text-primary mb-3">{m.role}</p>
+                <div className="flex justify-center gap-3">
+                  {[
+                    { Icon: Facebook, url: m.social_facebook },
+                    { Icon: Twitter, url: m.social_twitter },
+                    { Icon: Linkedin, url: m.social_linkedin },
+                  ].map(({ Icon, url }, idx) => (
+                    <a
+                      key={idx}
+                      href={url || "#"}
+                      className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
