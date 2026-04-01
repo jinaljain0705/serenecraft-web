@@ -189,7 +189,7 @@ const CartPage = () => {
                       </li>
                     </ul>
                     <Link
-                      to="/contact"
+                      to="/checkout"
                       className="block w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
                     >
                       Proceed to Checkout
