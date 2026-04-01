@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -15,6 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { totalItems } = useCart();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -52,15 +54,27 @@ const Navbar = () => {
             </div>
             <span className="text-sm font-medium text-foreground">+1 (800) 123-4567</span>
           </div>
-          <div className="relative">
+          <Link to="/cart" className="relative">
             <ShoppingCart className="h-5 w-5 text-foreground" />
-            <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-teal text-[10px] font-bold text-card flex items-center justify-center">0</span>
-          </div>
+            <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-teal text-[10px] font-bold text-card flex items-center justify-center">
+              {totalItems}
+            </span>
+          </Link>
         </div>
 
-        <button onClick={() => setOpen(!open)} className="lg:hidden text-foreground" aria-label="Toggle menu">
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-4 lg:hidden">
+          <Link to="/cart" className="relative">
+            <ShoppingCart className="h-5 w-5 text-foreground" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-teal text-[10px] font-bold text-card flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button onClick={() => setOpen(!open)} className="text-foreground" aria-label="Toggle menu">
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile */}
