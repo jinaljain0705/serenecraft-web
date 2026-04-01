@@ -23,7 +23,13 @@ const ConsultationForm = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    const { error } = await supabase.from("contact_submissions").insert([data]);
+    const { error } = await supabase.from("contact_submissions").insert([{
+      name: data.name!,
+      email: data.email!,
+      phone: data.phone!,
+      service: data.service!,
+      message: data.message!,
+    }]);
     if (error) {
       toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
       return;
