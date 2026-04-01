@@ -27,6 +27,7 @@ const Index = () => (
     <Team />
     <WhyChooseUs />
     <DonateCTA />
+    <PricingSection />
     <BlogSection />
     <Footer />
   </PageTransition>
