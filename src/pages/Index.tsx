@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Stethoscope, Heart, Users, ArrowRight } from "lucide-react";
@@ -12,11 +13,9 @@ const highlights = [
 ];
 
 const Index = () => (
-  <>
+  <PageTransition>
     <Navbar />
     <Hero />
-
-    {/* Quick highlights */}
     <section className="py-20">
       <div className="container mx-auto">
         <div className="grid sm:grid-cols-3 gap-6 mb-12">
@@ -37,7 +36,6 @@ const Index = () => (
             </motion.div>
           ))}
         </div>
-
         <div className="text-center space-x-4">
           <Link to="/services" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-teal-dark transition-colors">
             Explore Services <ArrowRight className="h-4 w-4" />
@@ -48,9 +46,8 @@ const Index = () => (
         </div>
       </div>
     </section>
-
     <Footer />
-  </>
+  </PageTransition>
 );
 
 export default Index;

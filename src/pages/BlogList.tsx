@@ -5,6 +5,7 @@ import { Calendar, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 
 const BlogList = () => {
   const { data: posts, isLoading } = useQuery({
@@ -21,7 +22,7 @@ const BlogList = () => {
   });
 
   return (
-    <>
+    <PageTransition>
       <Navbar />
       <div className="min-h-screen pt-24 pb-16">
         <div className="container mx-auto">
@@ -75,7 +76,7 @@ const BlogList = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </PageTransition>
   );
 };
 
