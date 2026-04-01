@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
@@ -18,21 +18,21 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-md border-b border-border">
       <div className="container mx-auto flex items-center justify-between py-4">
         <Link to="/" className="flex items-center gap-2">
           <Heart className="h-7 w-7 text-primary" fill="hsl(var(--primary))" />
           <span className="font-heading text-2xl font-bold text-foreground">Careold</span>
         </Link>
 
-        {/* Desktop */}
-        <ul className="hidden md:flex items-center gap-8">
+        {/* Desktop nav */}
+        <ul className="hidden lg:flex items-center gap-7">
           {navLinks.map((l) => (
             <li key={l.to}>
               <Link
                 to={l.to}
                 className={`text-sm font-body font-medium transition-colors ${
-                  location.pathname === l.to ? "text-primary" : "text-muted-foreground hover:text-primary"
+                  location.pathname === l.to ? "text-primary" : "text-foreground hover:text-primary"
                 }`}
               >
                 {l.label}
@@ -41,11 +41,23 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <Link to="/contact" className="hidden md:inline-flex rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-teal-dark transition-colors">
-          Get Consultation
-        </Link>
+        {/* Right side */}
+        <div className="hidden lg:flex items-center gap-5">
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center">
+              <Phone className="h-4 w-4 text-primary-foreground" />
+            </div>
+            <span className="text-sm font-medium text-foreground">+1 (800) 123-4567</span>
+          </div>
+          <Link
+            to="/contact"
+            className="rounded-lg border-2 border-foreground px-5 py-2.5 text-sm font-medium text-foreground hover:bg-foreground hover:text-background transition-colors"
+          >
+            Get A Quote
+          </Link>
+        </div>
 
-        <button onClick={() => setOpen(!open)} className="md:hidden text-foreground" aria-label="Toggle menu">
+        <button onClick={() => setOpen(!open)} className="lg:hidden text-foreground" aria-label="Toggle menu">
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
@@ -57,7 +69,7 @@ const Navbar = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="md:hidden overflow-hidden bg-card border-b border-border"
+            className="lg:hidden overflow-hidden bg-card border-b border-border"
           >
             <ul className="flex flex-col gap-4 p-6">
               {navLinks.map((l) => (
@@ -74,8 +86,8 @@ const Navbar = () => {
                 </li>
               ))}
               <li>
-                <Link to="/contact" onClick={() => setOpen(false)} className="inline-flex rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground">
-                  Get Consultation
+                <Link to="/contact" onClick={() => setOpen(false)} className="inline-flex rounded-lg border-2 border-foreground px-5 py-2.5 text-sm font-medium text-foreground">
+                  Get A Quote
                 </Link>
               </li>
             </ul>
