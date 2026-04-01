@@ -1,19 +1,28 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
-
-const testimonials = [
-  { author: "Alen Martin", quote: "Careold has been a blessing for our family. The staff treats my mother with such warmth and professionalism. We couldn't ask for better care.", rating: 5 },
-  { author: "Jessica Lee", quote: "The compassion and dedication of the entire team gave us peace of mind. My father has never been happier since joining Careold.", rating: 5 },
-  { author: "Michael Brooks", quote: "Outstanding service from day one. The personalized care plan made all the difference for our grandmother's recovery.", rating: 4 },
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const Testimonials = () => {
   const [current, setCurrent] = useState(0);
 
+  const { data: testimonials = [] } = useQuery({
+    queryKey: ["testimonials"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("*")
+        .order("created_at");
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const next = () => setCurrent((c) => (c + 1) % testimonials.length);
   const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
 
+  if (!testimonials.length) return null;
   const t = testimonials[current];
 
   return (
