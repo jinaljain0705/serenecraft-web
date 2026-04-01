@@ -3,10 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail, FileText } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail, FileText, ShoppingBag } from "lucide-react";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
-type Tab = "services" | "team" | "testimonials" | "submissions" | "blog";
+type Tab = "services" | "team" | "testimonials" | "submissions" | "blog" | "orders";
 
 const AdminDashboard = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -30,6 +30,7 @@ const AdminDashboard = () => {
     { key: "testimonials", label: "Testimonials", icon: MessageSquare },
     { key: "submissions", label: "Submissions", icon: Mail },
     { key: "blog", label: "Blog Posts", icon: FileText },
+    { key: "orders", label: "Orders", icon: ShoppingBag },
   ];
 
   return (
@@ -72,6 +73,7 @@ const AdminDashboard = () => {
         {tab === "testimonials" && <TestimonialsPanel />}
         {tab === "submissions" && <SubmissionsPanel />}
         {tab === "blog" && <BlogPanel />}
+        {tab === "orders" && <OrdersPanel />}
       </div>
     </div>
   );
@@ -592,6 +594,124 @@ function BlogForm({ initial, onSave, onCancel, saving }: {
           {saving ? "Saving..." : initial ? "Update" : "Create"}
         </button>
         <button onClick={onCancel} className="rounded-lg bg-secondary px-5 py-2 text-sm font-medium text-foreground hover:bg-secondary/80 transition-colors">Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+function OrdersPanel() {
+  const { data: orders = [], isLoading } = useQuery({
+    queryKey: ["admin-orders"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const { data: expandedItems = [] } = useQuery({
+    queryKey: ["admin-order-items", expandedId],
+    queryFn: async () => {
+      if (!expandedId) return [];
+      const { data, error } = await supabase
+        .from("order_items")
+        .select("*")
+        .eq("order_id", expandedId);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!expandedId,
+  });
+
+  const statusColors: Record<string, string> = {
+    pending: "bg-yellow-100 text-yellow-800",
+    processing: "bg-blue-100 text-blue-800",
+    shipped: "bg-purple-100 text-purple-800",
+    delivered: "bg-green-100 text-green-800",
+    cancelled: "bg-destructive/10 text-destructive",
+  };
+
+  return (
+    <div>
+      <h2 className="font-heading text-2xl font-bold text-foreground mb-6">Orders</h2>
+      {isLoading && <p className="text-muted-foreground text-sm">Loading orders...</p>}
+      {!isLoading && orders.length === 0 && <p className="text-muted-foreground text-sm">No orders yet.</p>}
+      <div className="grid gap-3">
+        {orders.map((order) => (
+          <div key={order.id} className="rounded-xl bg-card border border-border shadow-soft overflow-hidden">
+            <button
+              onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
+              className="w-full p-5 text-left"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <p className="font-medium text-foreground">#{order.order_number}</p>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[order.status] || "bg-muted text-muted-foreground"}`}>
+                      {order.status}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {order.first_name} {order.last_name} · {order.email}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {new Date(order.created_at).toLocaleString()}
+                  </p>
+                </div>
+                <p className="font-heading text-lg font-bold text-primary">${Number(order.total).toFixed(2)}</p>
+              </div>
+            </button>
+
+            {expandedId === order.id && (
+              <div className="border-t border-border px-5 pb-5 pt-3">
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Shipping</p>
+                    <p className="text-sm text-foreground">{order.first_name} {order.last_name}</p>
+                    <p className="text-sm text-muted-foreground">{order.street}</p>
+                    <p className="text-sm text-muted-foreground">{order.city}, {order.state} {order.zip}</p>
+                    <p className="text-sm text-muted-foreground">{order.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Payment</p>
+                    <p className="text-sm text-foreground capitalize">{order.payment_method}</p>
+                    {order.notes && (
+                      <>
+                        <p className="text-xs font-medium text-muted-foreground uppercase mt-2 mb-1">Notes</p>
+                        <p className="text-sm text-muted-foreground">{order.notes}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-xs font-medium text-muted-foreground uppercase mb-2">Items</p>
+                <div className="space-y-2">
+                  {expandedItems.map((item) => (
+                    <div key={item.id} className="flex items-center gap-3">
+                      <img src={item.product_image} alt={item.product_name} className="h-10 w-10 rounded-lg object-cover bg-muted border border-border" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{item.product_name}</p>
+                        <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+                      </div>
+                      <p className="text-sm font-semibold text-foreground">${(Number(item.price) * item.quantity).toFixed(2)}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-border flex justify-end gap-6 text-sm">
+                  <span className="text-muted-foreground">Subtotal: ${Number(order.subtotal).toFixed(2)}</span>
+                  <span className="text-muted-foreground">Shipping: ${Number(order.shipping).toFixed(2)}</span>
+                  <span className="font-bold text-foreground">Total: ${Number(order.total).toFixed(2)}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
