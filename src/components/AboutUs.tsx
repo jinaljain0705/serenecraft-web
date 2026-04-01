@@ -1,89 +1,97 @@
 import { motion } from "framer-motion";
-import { Heart, Award, Clock, Users } from "lucide-react";
-
-const stats = [
-  { icon: Heart, value: "15+", label: "Years of Service" },
-  { icon: Users, value: "2,000+", label: "Families Served" },
-  { icon: Award, value: "50+", label: "Care Experts" },
-  { icon: Clock, value: "24/7", label: "Support Available" },
-];
+import { Heart, Shield, Users, HandHeart, Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => (
-  <section id="about" className="py-24">
-    <div className="container mx-auto">
+  <section className="py-24 bg-background">
+    <div className="container mx-auto px-4">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
-        {/* Text */}
+        {/* Image Side */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          className="relative"
         >
-          <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
-            About Careold
-          </span>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-6">
-            Our Mission Is to Bring{" "}
-            <span className="text-gradient-teal">Joy & Dignity</span>{" "}
-            to Every Senior
-          </h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Founded in 2009, Careold was born from a simple belief: every senior deserves
-            to live with dignity, comfort, and happiness. Our team of compassionate
-            professionals provides personalized care that honors each individual's
-            unique needs and preferences.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-8">
-            We go beyond basic care — we build genuine relationships with our residents
-            and their families, creating a warm community where everyone feels valued
-            and supported. Our holistic approach combines medical expertise with
-            emotional well-being programs.
-          </p>
-
-          <div className="grid grid-cols-2 gap-4">
-            {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-3 rounded-xl bg-secondary/50 p-4"
-              >
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <s.icon className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-heading text-xl font-bold text-foreground">{s.value}</p>
-                  <p className="text-xs text-muted-foreground">{s.label}</p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="relative rounded-2xl overflow-hidden bg-accent/40 aspect-[4/3]">
+            <img
+              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=700&h=500&fit=crop"
+              alt="Caregiver with senior"
+              className="w-full h-full object-cover"
+            />
+            {/* Rating badge */}
+            <div className="absolute top-6 right-6 bg-accent px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-md">
+              <span className="text-primary text-lg">✦</span>
+              <span className="font-heading font-semibold text-foreground">4.9 avg rating</span>
+            </div>
+          </div>
+          {/* Experience badge */}
+          <div className="absolute -bottom-6 -left-4 bg-card rounded-2xl shadow-lg p-6 text-center w-44">
+            <p className="font-heading text-4xl font-bold text-foreground">20+</p>
+            <p className="text-sm text-muted-foreground mt-1">Years Of Experience</p>
+            <span className="text-primary text-2xl mt-2 inline-block">✦</span>
           </div>
         </motion.div>
 
-        {/* Visual */}
+        {/* Text Side */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="relative"
         >
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <div className="rounded-2xl bg-primary/10 p-8 text-center">
-                <p className="font-heading text-4xl font-bold text-primary mb-2">15+</p>
-                <p className="text-sm text-muted-foreground">Years of Excellence</p>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="w-3 h-3 rounded-full border-2 border-primary" />
+            <span className="text-sm font-semibold uppercase tracking-wider text-primary">Know About Us</span>
+          </div>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+            We Offer Expert Senior Care Services
+          </h2>
+          <p className="text-muted-foreground leading-relaxed mb-8">
+            Founded with a commitment to excellence, Careold provides compassionate and 
+            professional senior care services tailored to each individual's unique needs 
+            and preferences.
+          </p>
+
+          {/* Feature items */}
+          <div className="space-y-6 mb-8">
+            <div className="flex items-start gap-4">
+              <div className="h-14 w-14 rounded-xl bg-accent/60 flex items-center justify-center shrink-0">
+                <HandHeart className="h-7 w-7 text-teal-dark" />
               </div>
-              <div className="rounded-2xl bg-cream-dark aspect-[4/3] overflow-hidden shadow-soft" />
+              <div>
+                <h3 className="font-heading text-lg font-bold text-foreground">Strategies To Feel Better</h3>
+                <p className="text-sm text-muted-foreground">Personalized wellness plans designed for comfort and joy</p>
+              </div>
             </div>
-            <div className="space-y-4 pt-8">
-              <div className="rounded-2xl bg-cream-dark aspect-[4/3] overflow-hidden shadow-soft" />
-              <div className="rounded-2xl bg-secondary p-8 text-center">
-                <p className="font-heading text-4xl font-bold text-primary mb-2">98%</p>
-                <p className="text-sm text-muted-foreground">Family Satisfaction</p>
+            <div className="flex items-start gap-4">
+              <div className="h-14 w-14 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
+                <Shield className="h-7 w-7 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-foreground">Complete Medical Supply</h3>
+                <p className="text-sm text-muted-foreground">Full-service medical care and supply management</p>
               </div>
             </div>
           </div>
+
+          {/* Check items */}
+          <div className="space-y-3 mb-8">
+            <div className="flex items-center gap-3">
+              <Check className="h-5 w-5 text-foreground" />
+              <span className="text-muted-foreground">Dedicated care professionals available around the clock</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Check className="h-5 w-5 text-foreground" />
+              <span className="text-muted-foreground">Professional caregiving service for all your needs</span>
+            </div>
+          </div>
+
+          <Link
+            to="/contact"
+            className="inline-block border-2 border-foreground text-foreground font-semibold px-8 py-3 rounded-md hover:bg-foreground hover:text-background transition-colors"
+          >
+            Learn More
+          </Link>
         </motion.div>
       </div>
     </div>
