@@ -60,6 +60,9 @@ const Navbar = () => {
               {totalItems}
             </span>
           </Link>
+          <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors" title="Admin">
+            <Lock className="h-4 w-4" />
+          </Link>
         </div>
 
         <div className="flex items-center gap-4 lg:hidden">
