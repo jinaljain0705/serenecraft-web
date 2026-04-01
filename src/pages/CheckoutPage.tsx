@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const SHIPPING_RATE = 20;
 
