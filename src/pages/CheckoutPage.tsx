@@ -79,7 +79,9 @@ const CheckoutPage = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [placing, setPlacing] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
     const newErrors = validate();
@@ -89,32 +91,79 @@ const CheckoutPage = () => {
       return;
     }
 
-    const orderData = {
-      orderId: Math.random().toString(36).substring(2, 10).toUpperCase(),
-      firstName: form.firstName,
-      lastName: form.lastName,
-      email: form.email,
-      street: form.street,
-      city: form.city,
-      state: form.state,
-      zip: form.zip,
-      country: form.country,
-      phone: form.phone,
-      paymentMethod: form.paymentMethod,
-      items: items.map((item) => ({
-        name: item.product.name,
-        image: item.product.image,
+    setPlacing(true);
+    const orderNumber = Math.random().toString(36).substring(2, 10).toUpperCase();
+
+    try {
+      // Insert order
+      const { data: order, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          order_number: orderNumber,
+          first_name: form.firstName,
+          last_name: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          street: form.street,
+          city: form.city,
+          state: form.state,
+          zip: form.zip,
+          country: form.country,
+          payment_method: form.paymentMethod,
+          notes: form.notes,
+          subtotal,
+          shipping,
+          total,
+        })
+        .select("id")
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Insert order items
+      const orderItems = items.map((item) => ({
+        order_id: order.id,
+        product_name: item.product.name,
+        product_image: item.product.image,
         price: item.product.price,
         quantity: item.quantity,
-      })),
-      subtotal,
-      shipping,
-      total,
-    };
+      }));
 
-    clearCart();
-    toast.success("Order placed successfully!");
-    navigate("/order-confirmation", { state: orderData });
+      const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+      if (itemsError) throw itemsError;
+
+      const orderData = {
+        orderId: orderNumber,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        street: form.street,
+        city: form.city,
+        state: form.state,
+        zip: form.zip,
+        country: form.country,
+        phone: form.phone,
+        paymentMethod: form.paymentMethod,
+        items: items.map((item) => ({
+          name: item.product.name,
+          image: item.product.image,
+          price: item.product.price,
+          quantity: item.quantity,
+        })),
+        subtotal,
+        shipping,
+        total,
+      };
+
+      clearCart();
+      toast.success("Order placed successfully!");
+      navigate("/order-confirmation", { state: orderData });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order. Please try again.");
+    } finally {
+      setPlacing(false);
+    }
   };
 
   if (items.length === 0) {
