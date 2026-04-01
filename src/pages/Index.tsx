@@ -10,6 +10,7 @@ import Team from "@/components/Team";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import DonateCTA from "@/components/DonateCTA";
 import BlogSection from "@/components/BlogSection";
+import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 
@@ -26,6 +27,7 @@ const Index = () => (
     <Team />
     <WhyChooseUs />
     <DonateCTA />
+    <PricingSection />
     <BlogSection />
     <Footer />
   </PageTransition>
