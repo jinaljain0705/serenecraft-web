@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-senior-care.jpg";
 
 const Hero = () => {
@@ -35,12 +36,12 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="rounded-lg bg-primary px-7 py-3.5 text-base font-medium text-primary-foreground hover:bg-teal-dark transition-colors shadow-soft"
             >
               Book Consultation
-            </a>
+            </Link>
 
             <button
               onClick={() => setVideoOpen(true)}
