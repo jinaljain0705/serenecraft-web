@@ -10,7 +10,7 @@ const AboutPage = () => (
     <Navbar />
     <div className="pt-20">
       <AboutUs />
-      <AboutValues />
+      
       <AboutTeam />
     </div>
     <Footer />
