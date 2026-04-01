@@ -87,11 +87,33 @@ const CheckoutPage = () => {
       toast.error("Please fix the errors in the form");
       return;
     }
+
+    const orderData = {
+      orderId: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      street: form.street,
+      city: form.city,
+      state: form.state,
+      zip: form.zip,
+      country: form.country,
+      phone: form.phone,
+      paymentMethod: form.paymentMethod,
+      items: items.map((item) => ({
+        name: item.product.name,
+        image: item.product.image,
+        price: item.product.price,
+        quantity: item.quantity,
+      })),
+      subtotal,
+      shipping,
+      total,
+    };
+
     clearCart();
-    toast.success("Order placed successfully!", {
-      description: "Thank you for your purchase. We'll send a confirmation to your email.",
-    });
-    navigate("/shop");
+    toast.success("Order placed successfully!");
+    navigate("/order-confirmation", { state: orderData });
   };
 
   if (items.length === 0) {

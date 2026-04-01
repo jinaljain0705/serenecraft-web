@@ -21,6 +21,7 @@ import ShopPage from "./pages/ShopPage.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import CartPage from "./pages/CartPage.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
+import OrderConfirmation from "./pages/OrderConfirmation.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useEffect } from "react";
 
@@ -48,6 +49,7 @@ const AnimatedRoutes = () => {
         <Route path="/shop/:slug" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/admin/login" element={<AdminLogin />} />
