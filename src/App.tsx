@@ -20,6 +20,7 @@ import PricingPage from "./pages/PricingPage.tsx";
 import ShopPage from "./pages/ShopPage.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import CartPage from "./pages/CartPage.tsx";
+import CheckoutPage from "./pages/CheckoutPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useEffect } from "react";
 
