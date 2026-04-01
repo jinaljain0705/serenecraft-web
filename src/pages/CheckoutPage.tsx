@@ -353,18 +353,21 @@ const CheckoutPage = () => {
                     </div>
 
                     {/* Terms */}
-                    <label className="flex items-start gap-3 cursor-pointer mb-6">
-                      <input
-                        type="checkbox"
-                        name="agreeTerms"
-                        checked={form.agreeTerms as boolean}
-                        onChange={handleChange}
-                        className="mt-0.5 h-4 w-4 accent-primary"
-                      />
-                      <span className="text-xs text-muted-foreground leading-relaxed">
-                        I have read and agree to the website terms and conditions *
-                      </span>
-                    </label>
+                    <div className="mb-6">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="agreeTerms"
+                          checked={form.agreeTerms as boolean}
+                          onChange={handleChange}
+                          className="mt-0.5 h-4 w-4 accent-primary"
+                        />
+                        <span className="text-xs text-muted-foreground leading-relaxed">
+                          I have read and agree to the website terms and conditions *
+                        </span>
+                      </label>
+                      {errors.agreeTerms && <p className="text-destructive text-xs mt-1">{errors.agreeTerms}</p>}
+                    </div>
 
                     <button
                       type="submit"
