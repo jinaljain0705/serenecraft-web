@@ -60,6 +60,9 @@ const Navbar = () => {
               {totalItems}
             </span>
           </Link>
+          <Link to="/auth" className="text-muted-foreground hover:text-primary transition-colors" title="Account">
+            <User className="h-4 w-4" />
+          </Link>
           <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors" title="Admin">
             <Lock className="h-4 w-4" />
           </Link>
