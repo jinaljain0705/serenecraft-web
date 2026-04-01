@@ -10,32 +10,32 @@ import serviceHome from "@/assets/service-home.jpg";
 const services = [
   {
     title: "Companion Care",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Friendly companionship and social engagement to reduce loneliness, including conversation, outings, and shared activities for emotional well-being.",
     image: serviceCompanion,
   },
   {
     title: "Personalized Care",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Tailored care plans designed around individual needs, preferences, and routines to ensure comfort and dignity at every stage of life.",
     image: servicePersonalized,
   },
   {
     title: "Disability Housing",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Safe, accessible living spaces equipped with specialized facilities and round-the-clock support for individuals with physical disabilities.",
     image: serviceDisability,
   },
   {
     title: "Nursing Care",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Professional registered nurses providing medication management, wound care, and ongoing health monitoring in a compassionate environment.",
     image: serviceNursing,
   },
   {
     title: "Medical Checkup",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Regular health assessments and preventive screenings to detect early signs of illness and maintain optimal health for seniors.",
     image: serviceMedical,
   },
   {
     title: "Home Aged Care",
-    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    description: "Comprehensive in-home support including meal preparation, personal hygiene assistance, and household tasks so loved ones can age comfortably at home.",
     image: serviceHome,
   },
 ];
