@@ -1,14 +1,19 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import { Star, ShoppingCart, Check, ArrowLeft } from "lucide-react";
+import { Star, ShoppingCart, Check, ArrowLeft, Minus, Plus } from "lucide-react";
 import { products } from "@/data/products";
+import { useCart } from "@/hooks/useCart";
+import { toast } from "sonner";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const product = products.find((p) => p.slug === slug);
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return (
@@ -24,6 +29,15 @@ const ProductDetail = () => {
       </PageTransition>
     );
   }
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    toast.success(`${product.name} added to cart`, {
+      description: `Quantity: ${quantity}`,
+      action: { label: "View Cart", onClick: () => window.location.href = "/cart" },
+    });
+    setQuantity(1);
+  };
 
   const related = products.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, 3);
 
@@ -135,23 +149,42 @@ const ProductDetail = () => {
                   </ul>
                 </div>
 
-                {/* CTA */}
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    to="/contact"
-                    className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-primary/90 transition-colors"
+                {/* Quantity + Add to Cart */}
+                <div className="flex flex-wrap items-center gap-4 mb-6">
+                  <div className="flex items-center border border-border rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      className="h-12 w-12 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                      disabled={quantity <= 1}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </button>
+                    <span className="h-12 w-14 flex items-center justify-center text-sm font-semibold text-foreground border-x border-border">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => setQuantity((q) => q + 1)}
+                      className="h-12 w-12 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <button
+                    onClick={handleAddToCart}
+                    className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-primary/90 transition-colors h-12"
                   >
                     <ShoppingCart className="h-5 w-5" />
-                    Order Now
-                  </Link>
-                  <Link
-                    to="/shop"
-                    className="border-2 border-foreground text-foreground px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-foreground hover:text-background transition-colors"
-                  >
-                    <ArrowLeft className="h-5 w-5" />
-                    Back to Shop
-                  </Link>
+                    Add to Cart
+                  </button>
                 </div>
+
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Shop
+                </Link>
               </motion.div>
             </div>
           </div>
