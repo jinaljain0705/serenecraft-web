@@ -443,9 +443,10 @@ const CheckoutPage = () => {
 
                     <button
                       type="submit"
-                      className="block w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                      disabled={placing}
+                      className="block w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
                     >
-                      Place Order
+                      {placing ? "Placing Order..." : "Place Order"}
                     </button>
                   </motion.div>
                 </div>
