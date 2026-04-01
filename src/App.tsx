@@ -63,8 +63,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <ScrollToTop />
-          <AnimatedRoutes />
+          <CartProvider>
+            <ScrollToTop />
+            <AnimatedRoutes />
+          </CartProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
