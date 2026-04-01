@@ -28,7 +28,26 @@ const socials = [
   { icon: Instagram, href: "#", label: "Instagram" },
 ];
 
-const Footer = () => (
+const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setLoading(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({ email: email.trim() });
+    setLoading(false);
+    if (error) {
+      if (error.code === "23505") toast.info("You're already subscribed!");
+      else toast.error("Something went wrong. Please try again.");
+    } else {
+      toast.success("Thanks for subscribing!");
+      setEmail("");
+    }
+  };
+
+  return (
   <footer className="bg-foreground pt-16 pb-8">
     <div className="container mx-auto">
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
