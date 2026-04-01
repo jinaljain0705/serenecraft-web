@@ -16,6 +16,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import PricingPage from "./pages/PricingPage.tsx";
+import ShopPage from "./pages/ShopPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useEffect } from "react";
 
@@ -39,6 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/testimonials" element={<TestimonialsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/shop" element={<ShopPage />} />
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/admin/login" element={<AdminLogin />} />
