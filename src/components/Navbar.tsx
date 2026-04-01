@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ShoppingCart, Lock } from "lucide-react";
+import { Menu, X, Phone, ShoppingCart, Lock, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
 
@@ -60,6 +60,9 @@ const Navbar = () => {
               {totalItems}
             </span>
           </Link>
+          <Link to="/auth" className="text-muted-foreground hover:text-primary transition-colors" title="Account">
+            <User className="h-4 w-4" />
+          </Link>
           <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors" title="Admin">
             <Lock className="h-4 w-4" />
           </Link>
@@ -103,6 +106,11 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link to="/auth" onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <User className="h-4 w-4" /> Sign In / Sign Up
+                </Link>
+              </li>
               <li>
                 <Link to="/admin/login" onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                   <Lock className="h-4 w-4" /> Admin

@@ -15,6 +15,7 @@ import ContactPage from "./pages/ContactPage.tsx";
 import BlogList from "./pages/BlogList.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
+import AuthPage from "./pages/AuthPage.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import PricingPage from "./pages/PricingPage.tsx";
 import ShopPage from "./pages/ShopPage.tsx";
@@ -52,6 +53,7 @@ const AnimatedRoutes = () => {
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
