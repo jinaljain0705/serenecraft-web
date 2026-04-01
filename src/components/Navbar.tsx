@@ -103,6 +103,11 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link to="/admin/login" onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <Lock className="h-4 w-4" /> Admin
+                </Link>
+              </li>
             </ul>
           </motion.div>
         )}
