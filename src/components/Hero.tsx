@@ -8,12 +8,12 @@ const Hero = () => {
   const [videoOpen, setVideoOpen] = useState(false);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 right-0 w-96 h-96 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute bottom-20 left-0 w-72 h-72 rounded-full bg-secondary blur-3xl" />
-      </div>
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Decorative blobs */}
+      <div className="absolute top-10 left-[10%] w-3 h-3 bg-primary/60 rotate-45" />
+      <div className="absolute top-32 right-20 text-primary text-2xl font-bold">»</div>
+      <div className="absolute bottom-40 left-8 text-muted-foreground text-xl">✕</div>
+      <div className="absolute top-40 right-[30%] w-2 h-2 bg-teal/40 rotate-45" />
 
       <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
         {/* Text */}
@@ -22,71 +22,73 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-6">
-            Trusted Senior Care
-          </span>
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground mb-6">
-            Spreading{" "}
-            <span className="text-gradient-teal">Happiness</span>{" "}
-            In Senior Care
+            Creating{" "}
+            <span className="relative">
+              Smiles
+              <span className="absolute -top-4 -right-6 text-primary text-xl">✦✦</span>
+            </span>{" "}
+            In Senior Living
           </h1>
           <p className="text-muted-foreground text-lg leading-relaxed max-w-lg mb-8">
             We provide compassionate and professional care for your loved ones, ensuring comfort,
             dignity, and joy in every moment of their golden years.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              to="/contact"
-              className="rounded-lg bg-primary px-7 py-3.5 text-base font-medium text-primary-foreground hover:bg-teal-dark transition-colors shadow-soft"
-            >
-              Book Consultation
-            </Link>
+          <Link
+            to="/contact"
+            className="inline-block rounded-lg border-2 border-primary bg-transparent px-7 py-3.5 text-base font-medium text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            Get Consultation
+          </Link>
 
-            <button
-              onClick={() => setVideoOpen(true)}
-              className="flex items-center gap-3 group"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <Play className="h-5 w-5 text-primary ml-0.5" fill="hsl(var(--primary))" />
-              </span>
-              <span className="text-sm font-medium text-foreground">Watch Our Story</span>
-            </button>
-          </div>
-
-          {/* Stats */}
-          <div className="flex gap-10 mt-12 pt-8 border-t border-border">
-            {[
-              { value: "15+", label: "Years Experience" },
-              { value: "2K+", label: "Happy Families" },
-              { value: "50+", label: "Care Experts" },
-            ].map((s) => (
-              <div key={s.label}>
-                <p className="font-heading text-3xl font-bold text-primary">{s.value}</p>
-                <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
-              </div>
-            ))}
+          {/* Stats bar */}
+          <div className="flex items-center gap-6 mt-12">
+            <div className="flex items-center gap-3 rounded-lg border border-border bg-card px-5 py-3">
+              <span className="font-heading text-2xl font-bold text-foreground">4.5k+</span>
+              <span className="text-primary">⭐</span>
+              <span className="text-sm text-muted-foreground">To customer reviews</span>
+            </div>
+            <div className="flex -space-x-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-10 w-10 rounded-full bg-secondary border-2 border-card" />
+              ))}
+              <div className="h-10 w-10 rounded-full bg-primary/20 border-2 border-card flex items-center justify-center text-xs text-primary font-medium">+</div>
+            </div>
           </div>
         </motion.div>
 
-        {/* Image */}
+        {/* Image with circle frame */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative hidden md:block"
+          className="relative hidden md:flex justify-center"
         >
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-elevated">
-            <img src={heroImage} alt="Caring nurse with senior patient" className="w-full h-full object-cover" width={896} height={1120} />
+          {/* Circular outline */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-[420px] h-[420px] rounded-full border-2 border-primary/30" />
           </div>
-          {/* Floating badge */}
-          <div className="absolute -left-6 bottom-20 rounded-2xl bg-card shadow-card p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <span className="text-primary text-lg">❤️</span>
-            </div>
-            <div>
-              <p className="font-heading font-semibold text-foreground text-sm">Trusted Care</p>
-              <p className="text-xs text-muted-foreground">Since 2009</p>
+
+          <div className="w-[380px] h-[480px] rounded-[200px_200px_40px_40px] overflow-hidden shadow-elevated relative z-10">
+            <img src={heroImage} alt="Caring for seniors" className="w-full h-full object-cover" width={380} height={480} />
+          </div>
+
+          {/* Play button */}
+          <button
+            onClick={() => setVideoOpen(true)}
+            className="absolute top-1/4 -left-4 z-20 h-16 w-16 rounded-full bg-teal flex items-center justify-center shadow-card hover:scale-110 transition-transform"
+          >
+            <Play className="h-6 w-6 text-card ml-1" fill="hsl(var(--card))" />
+          </button>
+
+          {/* Rotating text badge */}
+          <div className="absolute top-[15%] -left-8 z-20">
+            <div className="relative h-24 w-24">
+              <div className="absolute inset-0 rounded-full border border-muted-foreground/20" />
+              <div className="absolute inset-3 rounded-full bg-card flex items-center justify-center shadow-soft">
+                <Play className="h-5 w-5 text-primary ml-0.5" fill="hsl(var(--primary))" />
+              </div>
             </div>
           </div>
         </motion.div>
