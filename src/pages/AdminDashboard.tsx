@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Heart, LayoutGrid, Users, MessageSquare, Mail, FileText } from "lucide-react";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
 type Tab = "services" | "team" | "testimonials" | "submissions";
