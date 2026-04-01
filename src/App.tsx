@@ -16,6 +16,7 @@ import BlogList from "./pages/BlogList.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AuthPage from "./pages/AuthPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import PricingPage from "./pages/PricingPage.tsx";
 import ShopPage from "./pages/ShopPage.tsx";
