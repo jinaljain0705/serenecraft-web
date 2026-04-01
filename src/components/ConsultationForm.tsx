@@ -4,6 +4,7 @@ import { z } from "zod";
 import { motion } from "framer-motion";
 import { Send, Phone, Mail, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -22,8 +23,17 @@ const ConsultationForm = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    // In production this would POST to /api/contact
-    console.log("Form submitted:", data);
+    const { error } = await supabase.from("contact_submissions").insert([{
+      name: data.name!,
+      email: data.email!,
+      phone: data.phone!,
+      service: data.service!,
+      message: data.message!,
+    }]);
+    if (error) {
+      toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
+      return;
+    }
     toast({ title: "Consultation Requested!", description: "We'll get back to you within 24 hours." });
     reset();
   };
@@ -49,7 +59,6 @@ const ConsultationForm = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-10">
-          {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -73,7 +82,6 @@ const ConsultationForm = () => {
             ))}
           </motion.div>
 
-          {/* Form */}
           <motion.form
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
