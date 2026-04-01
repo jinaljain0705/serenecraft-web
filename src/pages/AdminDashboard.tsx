@@ -30,6 +30,7 @@ const AdminDashboard = () => {
     { key: "testimonials", label: "Testimonials", icon: MessageSquare },
     { key: "submissions", label: "Submissions", icon: Mail },
     { key: "blog", label: "Blog Posts", icon: FileText },
+    { key: "orders", label: "Orders", icon: ShoppingBag },
   ];
 
   return (
