@@ -159,10 +159,10 @@ const CheckoutPage = () => {
                           name="firstName"
                           value={form.firstName}
                           onChange={handleChange}
-                          required
                           placeholder="First Name"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.firstName ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.firstName && <p className="text-destructive text-xs mt-1">{errors.firstName}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Last Name *</label>
@@ -171,10 +171,10 @@ const CheckoutPage = () => {
                           name="lastName"
                           value={form.lastName}
                           onChange={handleChange}
-                          required
                           placeholder="Last Name"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.lastName ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.lastName && <p className="text-destructive text-xs mt-1">{errors.lastName}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Country / Region *</label>
@@ -182,8 +182,7 @@ const CheckoutPage = () => {
                           name="country"
                           value={form.country}
                           onChange={handleChange}
-                          required
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.country ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         >
                           <option value="">Select Country</option>
                           <option value="US">United States</option>
@@ -191,6 +190,7 @@ const CheckoutPage = () => {
                           <option value="UK">United Kingdom</option>
                           <option value="AU">Australia</option>
                         </select>
+                        {errors.country && <p className="text-destructive text-xs mt-1">{errors.country}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Street Address *</label>
@@ -199,10 +199,10 @@ const CheckoutPage = () => {
                           name="street"
                           value={form.street}
                           onChange={handleChange}
-                          required
                           placeholder="Street address"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.street ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.street && <p className="text-destructive text-xs mt-1">{errors.street}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Town / City *</label>
@@ -211,10 +211,10 @@ const CheckoutPage = () => {
                           name="city"
                           value={form.city}
                           onChange={handleChange}
-                          required
                           placeholder="Town / City"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.city ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.city && <p className="text-destructive text-xs mt-1">{errors.city}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">State *</label>
@@ -223,10 +223,10 @@ const CheckoutPage = () => {
                           name="state"
                           value={form.state}
                           onChange={handleChange}
-                          required
                           placeholder="State"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.state ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.state && <p className="text-destructive text-xs mt-1">{errors.state}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">ZIP Code *</label>
@@ -235,10 +235,10 @@ const CheckoutPage = () => {
                           name="zip"
                           value={form.zip}
                           onChange={handleChange}
-                          required
                           placeholder="ZIP Code"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.zip ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.zip && <p className="text-destructive text-xs mt-1">{errors.zip}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Phone *</label>
@@ -247,10 +247,10 @@ const CheckoutPage = () => {
                           name="phone"
                           value={form.phone}
                           onChange={handleChange}
-                          required
                           placeholder="Phone"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.phone ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Email Address *</label>
@@ -259,10 +259,10 @@ const CheckoutPage = () => {
                           name="email"
                           value={form.email}
                           onChange={handleChange}
-                          required
                           placeholder="Email address"
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className={`w-full rounded-lg border ${errors.email ? 'border-destructive' : 'border-border'} bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30`}
                         />
+                        {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-foreground mb-2">Order Notes (optional)</label>
