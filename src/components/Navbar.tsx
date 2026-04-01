@@ -109,8 +109,8 @@ const Navbar = () => {
                 </li>
               ))}
               <li>
-                <Link to="/auth" onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
-                  <User className="h-4 w-4" /> Sign In / Sign Up
+                <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)} className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <User className="h-4 w-4" /> {user ? "My Profile" : "Sign In / Sign Up"}
                 </Link>
               </li>
               <li>
