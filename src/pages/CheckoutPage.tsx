@@ -94,11 +94,14 @@ const CheckoutPage = () => {
     setPlacing(true);
     const orderNumber = Math.random().toString(36).substring(2, 10).toUpperCase();
 
+    const orderId = crypto.randomUUID();
+
     try {
-      // Insert order
-      const { data: order, error: orderError } = await supabase
+      // Insert order with client-generated ID
+      const { error: orderError } = await supabase
         .from("orders")
         .insert({
+          id: orderId,
           order_number: orderNumber,
           first_name: form.firstName,
           last_name: form.lastName,
@@ -114,15 +117,13 @@ const CheckoutPage = () => {
           subtotal,
           shipping,
           total,
-        })
-        .select("id")
-        .single();
+        });
 
       if (orderError) throw orderError;
 
       // Insert order items
       const orderItems = items.map((item) => ({
-        order_id: order.id,
+        order_id: orderId,
         product_name: item.product.name,
         product_image: item.product.image,
         price: item.product.price,
