@@ -6,43 +6,47 @@
 
 @layer base {
   :root {
-    --background: 38 33% 96%;
-    --foreground: 220 20% 20%;
+    --background: 45 33% 97%;
+    --foreground: 220 20% 15%;
 
-    --card: 38 30% 98%;
-    --card-foreground: 220 20% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
 
-    --popover: 38 30% 98%;
-    --popover-foreground: 220 20% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
 
-    --primary: 174 35% 61%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 40 75% 55%;
+    --primary-foreground: 220 20% 15%;
 
-    --secondary: 38 25% 90%;
-    --secondary-foreground: 220 20% 20%;
+    --secondary: 45 30% 92%;
+    --secondary-foreground: 220 20% 15%;
 
-    --muted: 38 20% 92%;
+    --muted: 45 20% 92%;
     --muted-foreground: 220 10% 50%;
 
-    --accent: 174 35% 61%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 165 40% 85%;
+    --accent-foreground: 220 20% 15%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 38 20% 85%;
-    --input: 38 20% 85%;
-    --ring: 174 35% 61%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 40 75% 55%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
+    --gold: 40 75% 55%;
+    --gold-dark: 35 80% 45%;
+    --cream: 45 33% 97%;
+    --cream-dark: 45 25% 92%;
+    --warm-brown: 20 30% 25%;
     --teal: 174 35% 61%;
     --teal-dark: 174 40% 48%;
-    --cream: 38 33% 96%;
-    --cream-dark: 38 25% 90%;
-    --warm-brown: 20 30% 30%;
-    --soft-green: 150 25% 90%;
+    --mint: 165 40% 92%;
+    --peach: 15 60% 92%;
+    --lemon: 60 50% 90%;
 
     --font-heading: 'Playfair Display', Georgia, serif;
     --font-body: 'Inter', system-ui, sans-serif;
@@ -58,7 +62,7 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 174 35% 61%;
+    --sidebar-ring: 40 75% 55%;
   }
 }
 
@@ -77,6 +81,10 @@
 }
 
 @layer utilities {
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold-dark)));
+  }
   .text-gradient-teal {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, hsl(var(--teal)), hsl(var(--teal-dark)));
