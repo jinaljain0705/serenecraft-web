@@ -29,6 +29,7 @@ const AdminDashboard = () => {
     { key: "team", label: "Team", icon: Users },
     { key: "testimonials", label: "Testimonials", icon: MessageSquare },
     { key: "submissions", label: "Submissions", icon: Mail },
+    { key: "blog", label: "Blog Posts", icon: FileText },
   ];
 
   return (
