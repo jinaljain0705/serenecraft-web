@@ -1,69 +1,95 @@
 import { motion } from "framer-motion";
-import { Stethoscope, Home, Heart, Clock, Users, Shield } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { ArrowRight } from "lucide-react";
+import serviceCompanion from "@/assets/service-companion.jpg";
+import servicePersonalized from "@/assets/service-personalized.jpg";
+import serviceDisability from "@/assets/service-disability.jpg";
+import serviceNursing from "@/assets/service-nursing.jpg";
+import serviceMedical from "@/assets/service-medical.jpg";
+import serviceHome from "@/assets/service-home.jpg";
 
-const iconMap: Record<string, LucideIcon> = {
-  stethoscope: Stethoscope,
-  home: Home,
-  heart: Heart,
-  clock: Clock,
-  users: Users,
-  shield: Shield,
-};
+const services = [
+  {
+    title: "Companion Care",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: serviceCompanion,
+  },
+  {
+    title: "Personalized Care",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: servicePersonalized,
+  },
+  {
+    title: "Disability Housing",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: serviceDisability,
+  },
+  {
+    title: "Nursing Care",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: serviceNursing,
+  },
+  {
+    title: "Medical Checkup",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: serviceMedical,
+  },
+  {
+    title: "Home Aged Care",
+    description: "Lorem ipsum dolor sit amet lorem etur adipiscing elit sed do eiusmod",
+    image: serviceHome,
+  },
+];
 
 const Services = () => {
-  const { data: services } = useQuery({
-    queryKey: ["services"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("services")
-        .select("*")
-        .order("sort_order");
-      if (error) throw error;
-      return data;
-    },
-  });
-
   return (
-    <section id="services" className="py-24 bg-secondary/50">
+    <section className="py-24 bg-background">
       <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">Our Services</span>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Comprehensive Care <span className="text-gradient-teal">Solutions</span>
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            We offer a wide range of senior care services designed to enhance quality of life.
-          </p>
-        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((s, i) => (
+            <motion.div
+              key={s.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="group relative rounded-2xl bg-card overflow-hidden border border-border hover:border-primary/40 transition-all duration-300 shadow-soft hover:shadow-card"
+            >
+              {/* Image */}
+              <div className="relative h-56 overflow-hidden">
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  loading="lazy"
+                  width={640}
+                  height={512}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 to-transparent" />
+              </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services?.map((s, i) => {
-            const Icon = iconMap[s.icon] || Heart;
-            return (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group rounded-2xl bg-card p-8 shadow-soft hover:shadow-card transition-all duration-300 border border-border hover:border-primary/30"
-              >
-                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-3">{s.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{s.description}</p>
-              </motion.div>
-            );
-          })}
+              {/* Content */}
+              <div className="p-7">
+                <span className="text-xs font-medium tracking-widest uppercase text-primary mb-2 block">
+                  Service
+                </span>
+                <h3 className="font-heading text-xl font-bold text-foreground mb-3">
+                  {s.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                  {s.description}
+                </p>
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors group/link"
+                >
+                  Learn More
+                  <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-primary/10 group-hover/link:bg-primary/20 transition-colors">
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </a>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
