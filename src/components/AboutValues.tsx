@@ -40,7 +40,7 @@ const AboutValues = () => (
       </div>
 
       {/* Cards overlapping both sections */}
-      <div className="max-w-5xl mx-auto px-4 relative z-10 -mt-56">
+      <div className="max-w-5xl mx-auto px-4 relative z-10 -mt-80">
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           {values.map((v, i) => (
             <motion.div
