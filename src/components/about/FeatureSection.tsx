@@ -74,7 +74,7 @@ const FeatureSection = () => (
         >
           We <span className="text-primary">Empower</span> You With The
           <br className="hidden sm:block" /> Knowledge And Skills You Need
-          <br className="hidden sm:block" /> To Strengthen Your Mental
+          <br className="hidden sm:block" /> To Strengthen Your Mental Health
         </motion.h2>
       </div>
     </div>
