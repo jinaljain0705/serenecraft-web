@@ -24,6 +24,7 @@ import ProductDetail from "./pages/ProductDetail.tsx";
 import CartPage from "./pages/CartPage.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
 import OrderConfirmation from "./pages/OrderConfirmation.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useEffect } from "react";
 
@@ -55,6 +56,7 @@ const AnimatedRoutes = () => {
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />} />
