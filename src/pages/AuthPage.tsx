@@ -205,6 +205,15 @@ const AuthPage = () => {
               {mode === "signup" ? "Sign In" : mode === "forgot" ? "Sign In" : "Sign Up"}
             </button>
           </p>
+
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="w-full rounded-lg border border-border bg-background px-7 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors flex items-center justify-center gap-2"
+          >
+            <Home className="h-4 w-4" />
+            Back to Website
+          </button>
         </form>
       </div>
     </div>
