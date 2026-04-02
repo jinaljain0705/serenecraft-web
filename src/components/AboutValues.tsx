@@ -28,7 +28,7 @@ const values = [
 const AboutValues = () => (
   <section className="relative">
     {/* Top white area behind cards */}
-    <div className="h-56 bg-background" />
+    <div className="h-80 bg-background" />
 
     {/* Dark green section with radial glow */}
     <div className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(174 35% 20%) 0%, hsl(174 40% 15%) 100%)" }}>
@@ -40,7 +40,7 @@ const AboutValues = () => (
       </div>
 
       {/* Cards overlapping both sections */}
-      <div className="max-w-5xl mx-auto px-4 relative z-10 -mt-56">
+      <div className="max-w-5xl mx-auto px-4 relative z-10 -mt-80">
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           {values.map((v, i) => (
             <motion.div
