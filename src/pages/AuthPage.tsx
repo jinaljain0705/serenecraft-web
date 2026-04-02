@@ -121,10 +121,10 @@ const AuthPage = () => {
             <span className="font-heading text-3xl font-bold text-foreground">Careold</span>
           </div>
           <h1 className="font-heading text-2xl font-bold text-foreground">
-            {isSignUp ? "Create Account" : "Welcome Back"}
+            {mode === "signup" ? "Create Account" : mode === "forgot" ? "Forgot Password" : "Welcome Back"}
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            {isSignUp ? "Sign up to get started" : "Sign in to your account"}
+            {mode === "signup" ? "Sign up to get started" : mode === "forgot" ? "Enter your email to receive a reset link" : "Sign in to your account"}
           </p>
         </div>
 
