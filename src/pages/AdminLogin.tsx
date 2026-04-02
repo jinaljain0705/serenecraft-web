@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, LogIn } from "lucide-react";
+import { Heart, LogIn, ArrowLeft } from "lucide-react";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
