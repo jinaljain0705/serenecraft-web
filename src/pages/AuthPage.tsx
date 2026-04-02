@@ -161,38 +161,48 @@ const AuthPage = () => {
             />
           </div>
 
-          <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className={inputClass}
-              required
-              minLength={6}
-            />
-          </div>
+          {mode !== "forgot" && (
+            <div>
+              <label className="text-sm font-medium text-foreground mb-1 block">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className={inputClass}
+                required
+                minLength={6}
+              />
+            </div>
+          )}
+
+          {mode === "signin" && (
+            <div className="text-right -mt-2">
+              <button type="button" onClick={() => { setMode("forgot"); setError(""); }} className="text-xs text-primary hover:underline">
+                Forgot password?
+              </button>
+            </div>
+          )}
 
           <button
             type="submit"
             disabled={loading}
             className="w-full rounded-lg bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:bg-teal-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            {isSignUp ? <UserPlus className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
+            {mode === "signup" ? <UserPlus className="h-4 w-4" /> : mode === "forgot" ? <ArrowLeft className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
             {loading
-              ? (isSignUp ? "Creating account..." : "Signing in...")
-              : (isSignUp ? "Sign Up" : "Sign In")}
+              ? (mode === "signup" ? "Creating account..." : mode === "forgot" ? "Sending..." : "Signing in...")
+              : (mode === "signup" ? "Sign Up" : mode === "forgot" ? "Send Reset Link" : "Sign In")}
           </button>
 
           <p className="text-center text-sm text-muted-foreground">
-            {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+            {mode === "signup" ? "Already have an account?" : mode === "forgot" ? "Remember your password?" : "Don't have an account?"}{" "}
             <button
               type="button"
-              onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
+              onClick={() => { setMode(mode === "signup" ? "signin" : mode === "forgot" ? "signin" : "signup"); setError(""); }}
               className="text-primary hover:underline font-medium"
             >
-              {isSignUp ? "Sign In" : "Sign Up"}
+              {mode === "signup" ? "Sign In" : mode === "forgot" ? "Sign In" : "Sign Up"}
             </button>
           </p>
         </form>
