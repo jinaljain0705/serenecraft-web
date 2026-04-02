@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, LogIn } from "lucide-react";
+import { Heart, LogIn, ArrowLeft } from "lucide-react";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -59,6 +59,15 @@ const AdminLogin = () => {
           >
             <LogIn className="h-4 w-4" />
             {loading ? "Signing in..." : "Sign In"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="w-full rounded-lg border border-border bg-background px-7 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Website
           </button>
         </form>
       </div>
