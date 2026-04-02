@@ -28,7 +28,7 @@ const values = [
 const AboutValues = () => (
   <section className="relative">
     {/* Top white area behind cards */}
-    <div className="h-56 bg-background" />
+    <div className="h-80 bg-background" />
 
     {/* Dark green section with radial glow */}
     <div className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(174 35% 20%) 0%, hsl(174 40% 15%) 100%)" }}>
