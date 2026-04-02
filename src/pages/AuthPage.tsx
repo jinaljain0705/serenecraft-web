@@ -81,10 +81,29 @@ const AuthPage = () => {
             <p className="text-muted-foreground text-sm">
               We've sent a verification link to <strong>{email}</strong>. Please click the link to verify your account.
             </p>
-            <button
-              onClick={() => { setEmailSent(false); setIsSignUp(false); }}
-              className="mt-6 text-sm text-primary hover:underline"
-            >
+            <button onClick={() => { setEmailSent(false); setMode("signin"); }} className="mt-6 text-sm text-primary hover:underline">
+              Back to Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (resetSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
+        <div className="w-full max-w-md text-center">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <Heart className="h-8 w-8 text-primary" fill="hsl(var(--primary))" />
+            <span className="font-heading text-3xl font-bold text-foreground">Careold</span>
+          </div>
+          <div className="rounded-2xl bg-card p-8 shadow-card border border-border">
+            <h2 className="font-heading text-xl font-bold text-foreground mb-2">Reset link sent</h2>
+            <p className="text-muted-foreground text-sm">
+              We've sent a password reset link to <strong>{email}</strong>. Check your inbox and follow the link to set a new password.
+            </p>
+            <button onClick={() => { setResetSent(false); setMode("signin"); }} className="mt-6 text-sm text-primary hover:underline">
               Back to Sign In
             </button>
           </div>
