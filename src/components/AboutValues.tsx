@@ -72,7 +72,7 @@ const AboutValues = () => (
           className="font-heading text-3xl sm:text-4xl lg:text-[3.5rem] font-bold max-w-4xl mx-auto leading-[1.2] italic"
           style={{ color: "hsl(45 33% 90%)" }}
         >
-          We <span className="text-primary not-italic">Empower</span> You With The Knowledge And Skills You Need To Strengthen Your Mental
+          We <span className="text-primary not-italic">Empower</span> You With The Knowledge And Skills You Need To Strengthen Your Mental Health
         </motion.h2>
       </div>
     </div>
