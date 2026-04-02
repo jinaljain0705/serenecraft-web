@@ -135,7 +135,7 @@ const AuthPage = () => {
             </div>
           )}
 
-          {isSignUp && (
+          {mode === "signup" && (
             <div>
               <label className="text-sm font-medium text-foreground mb-1 block">Full Name</label>
               <input
