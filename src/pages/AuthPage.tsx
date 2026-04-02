@@ -22,7 +22,21 @@ const AuthPage = () => {
     setError("");
     setLoading(true);
 
-    if (isSignUp) {
+    if (mode === "forgot") {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) {
+        setError(error.message);
+      } else {
+        setResetSent(true);
+        toast({ title: "Reset link sent", description: "Check your email for the password reset link." });
+      }
+      setLoading(false);
+      return;
+    }
+
+    if (mode === "signup") {
       const { error } = await supabase.auth.signUp({
         email,
         password,
